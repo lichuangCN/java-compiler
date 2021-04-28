@@ -22,8 +22,9 @@ public class JavaStringCompiler {
         this.stdManager = compiler.getStandardFileManager(null, null, null);
     }
 
-    public Map<String, byte[]> compile(String className, String source) throws IOException {
-        try (MemoryJavaFileManager manager = new MemoryJavaFileManager(stdManager)) {
+    public Map<String, byte[]> compile(String className, String source) throws Exception {
+        try {
+            MemoryJavaFileManager manager = new MemoryJavaFileManager(stdManager);
             JavaFileObject javaFileObject = manager.makeStringSource(className, source);
             JavaCompiler.CompilationTask task = compiler.getTask(null, manager, null, null, null, Arrays.asList(javaFileObject));
             Boolean result = task.call();
@@ -31,6 +32,9 @@ public class JavaStringCompiler {
                 throw new RuntimeException("Compilation failed.");
             }
             return manager.getClassBytes();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Compilation failed.");
         }
     }
 
