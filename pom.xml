@@ -8,5 +8,8 @@
     <artifactId>java-compiler</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <encoding>UTF-8</encoding>
+    </properties>
 
 </project>
